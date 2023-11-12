@@ -1,0 +1,36 @@
+https://wokwi.com/projects/381158928588627969
+
+CÓDIGO ARDUINO:
+
+#include <Servo.h>
+
+// Definições de Hardware
+#define PIN_SERVO 8
+Servo servoMotor;
+
+// Pinos dos LDRs
+const int LDR_PIN_1 = A0;
+const int LDR_PIN_2 = A1;
+
+void setup() {
+  servoMotor.attach(PIN_SERVO);
+  Serial.begin(9600); // Inicialização da comunicação serial 
+}
+
+void loop() {
+  int ldrValue1 = analogRead(LDR_PIN_1);
+  int ldrValue2 = analogRead(LDR_PIN_2);
+
+  // Movimenta o servo para o LDR com a leitura mais alta
+  if (ldrValue1 > ldrValue2) {
+    int angle = map(ldrValue1, 0, 1023, 0, 180); 
+    servoMotor.write(angle); // Move o servo 
+    Serial.println("LDR 1");
+  } else {
+    int angle = map(ldrValue2, 0, 1023, 0, 180); 
+    servoMotor.write(angle); // Move o servo 
+    Serial.println("LDR 2");
+  }
+
+  delay(1000);
+}
